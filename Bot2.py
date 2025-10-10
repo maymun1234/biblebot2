@@ -25,7 +25,7 @@ verse_text = selected["text"]
 verse_ref = f"{selected['book']} {selected['chapter']}:{selected['verse']}"
 
 # --- POST içeriğini oluştur (gerçek satır sonu ile)
-content = f"{verse_text}\n-{verse_ref}"
+content = f"{verse_text}\n\n-{verse_ref}"
 
 # --- MiniBlog API bilgileri
 API_URL = "https://bercan.blog/pages/api/minipost_create.php"
