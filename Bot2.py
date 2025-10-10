@@ -24,8 +24,8 @@ selected = random.choice(verses)
 verse_text = selected["text"]
 verse_ref = f"{selected['book']} {selected['chapter']}:{selected['verse']}"
 
-# --- POST içeriğini oluştur (2 satır, br ile)
-content = f"{verse_text}<br>-{verse_ref}"
+# --- POST içeriğini oluştur (gerçek satır sonu ile)
+content = f"{verse_text}\n-{verse_ref}"
 
 # --- MiniBlog API bilgileri
 API_URL = "https://bercan.blog/pages/api/minipost_create.php"
