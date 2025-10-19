@@ -1,11 +1,9 @@
 # --- CSV ile Rastgele ayet seçicimiz.
 
-
-
-
 import csv
 import random
 import requests
+import re  # 1. Regular expressions modülünü dahil et
 
 verses = []
 with open("turkish.csv", newline="", encoding="utf-8") as csvfile:
@@ -29,7 +27,24 @@ verse_text = selected["text"]
 verse_ref = f"{selected['book']} {selected['chapter']}:{selected['verse']}"
 
 
+# --- İSTENEN DEĞİŞİKLİKLER BURADA ---
+
+# 2. Kural: Küçük harften sonra büyük harf gelirse (örn: "SözRab'dir"),
+# araya boşluk ekle. Türkçe karakterleri (Ç, Ğ, İ, Ö, Ş, Ü) de destekler.
+# Bu yöntem "RAB" gibi tamamen büyük harfli kelimeleri "R A B" diye bölmez.
+verse_text = re.sub(r"([a-zçğıöşü])([A-ZÇĞİÖŞÜ])", r"\1 \2", verse_text)
+
+# 3. Kural: Bir virgülden sonra boşluk olmayan bir karakter gelirse (örn: "Söz,Rab"),
+# araya boşluk ekle. (Eğer zaten boşluk varsa, örn: "Söz, Rab", dokunmaz.)
+verse_text = re.sub(r",(\S)", r", \1", verse_text)
+
+# --- DEĞİŞİKLİKLER BİTTİ ---
+
+
 content = f"{verse_text}\n\n-{verse_ref}"
+
+# --- Kodun geri kalanı (API isteği vb.) ---
+# print(content) # Sonucu test etmek için bu satırı kullanabilirsiniz
 
 
 API_URL = "https://bercan.blog/pages/api/minipost_create.php"
